@@ -1,0 +1,47 @@
+[core]
+	symlinks = false
+	repositoryformatversion = 0
+	filemode = false
+	logallrefupdates = true
+	bare = false
+	hideDotFiles = dotGitOnly
+[remote "origin"]
+	url = https://chenyong@10.0.69.22:2201/ids/ids.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master-2.1"]
+	remote = origin
+	merge = refs/heads/master-2.1
+[user]
+	name = chenyong
+	email = os-chenyong@jsfund.cn
+[http]
+	sslVerify = false
+[color]
+	ui = true
+[push]
+	default = matching
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[alias]
+	co = checkout
+	cm = commit
+	br = branch
+	st = status
+	fuck = update-index --assume-unchanged
+	rs = remote show origin
+	ci = commit
+	ffs = flow feature start
+	fff = flow feature finish
+	fhs = flow hotfix start
+	fhf = flow hotfix finish
+	unfuck = update-index --no-assume-unchanged
+[branch "master-2.2"]
+	remote = origin
+	merge = refs/heads/master-2.2
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[branch "master-3.0"]
+	remote = origin
+	merge = refs/heads/master-3.0

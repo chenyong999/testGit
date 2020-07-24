@@ -1,0 +1,96 @@
+我整理了一下流程和命令，建议大家使用命令行 :）
+ 
+举例：
+ 
+我接到了一个添加页面的任务，操作如下
+ 
+git checkout master_new  //切换到生产环境分支
+ 
+git pull  //拿到生产环境最新代码
+ 
+git checkout -b addPage@cj20181026  //切出一个自己的分支开始工作
+ 
+代码开发完成后
+ 
+git add  addPage.jsp  // add 自己修改的代码
+ 
+git commit -m"添加页面" // commit 到本地的git仓库
+ 
+测试环境测试
+ 
+git checkout acceptance //切换到测试环境分支
+ 
+git  pull   //拿到测试环境最新代码
+ 
+git merge addPage@cj20181026 //把自己的分支合并到测试环境
+ 
+如遇到冲突，会有提示, 如下
+Auto-merging addPage.jsp
+CONFLICT (content): Merge conflict in addPage.jsp
+Automatic merge failed; fix conflicts and then commit the result.
+ 
+这个时候如果你执行 git status时，会有提示，如下
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+ 
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+ 
+    both modified:   addPage.jsp
+ 
+no changes added to commit (use "git add" and/or "git commit -a")
+Git用<<<<<<<，=======，>>>>>>>标记出不同分支的内容，所以找到冲突文件后，直接搜索 <<<<就能快速定位冲突点，但要注意，不一定只有一个地方冲突，别漏掉（如不知如何解决冲突，或解决时遇到问题，欢迎来扰）
+ 
+解决后
+git add  addPage.jsp  // add 自己修改的代码
+git commit -m"for merge" // commit 到本地的git仓库
+git push
+ 
+如果在测试时发现bug，请回到自己的分支修改，再merge回acceptance，保证自己分支是完好的，代码是全的
+ 
+生产环境
+ 
+git checkout master_new //切换到测试环境分支
+ 
+git  pull   //拿到测试环境最新代码
+ 
+git merge addPage@cj20181026 //把自己的分支合并到测试环境
+//如遇冲突查看测试环境
+git push
+ 
+一旦merge到master_new后，你的分支的生命周期就结束了，如果生产环境要修改，请再次从master_new切分支来解决
+ 
+如果需要在同一分支协作开发时
+ 
+git push -u origin addPage@cj20181026 //把自己的分支 push到服务器
+ 
+协作同事操作
+ 
+git branch -r  查看服务器分支列表
+ 
+git checkout addPage@cj20181026 //拿到协作分支
+ 
+-----------------------------------------------------------------------------
+git 常用命令
+?	git clone XXX//克隆一份代码到本地仓库 
+?	git pull //把远程库的代码更新到工作台 
+?	git pull --rebase origin master //强制把远程库的代码跟新到当前分支上面 
+?	git add . //把本地的修改加到stage中 
+?	git commit -m 'comments here' //把stage中的修改提交到本地库 
+?	git push //把本地库的修改提交到远程库中 
+?	git branch -r/-a //查看远程分支/全部分支 
+?	git checkout master/branch //切换到某个分支 
+?	git checkout -b test //新建test分支 
+?	git checkout -d test //删除test分支 
+?	git merge master //假设当前在test分支上面，把master分支上的修改同步到test分支上 
+?	git stash //把未完成的修改缓存到栈容器中 
+?	git stash list //查看所有的缓存 
+?	git stash pop //恢复本地分支到缓存状态 
+?	git blame someFile //查看某个文件的每一行的修改记录（）谁在什么时候修改的） 
+?	git status //查看当前分支有哪些修改 
+?	git log //查看当前分支上面的日志信息 
+?	git diff //查看当前没有add的内容 
+?	git diff --cache //查看已经add但是没有commit的内容 
+?	git diff HEAD //上面两个内容的合并 
+?	git reset --hard HEAD //撤销本地修改 
